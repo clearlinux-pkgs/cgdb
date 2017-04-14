@@ -1,3 +1,102 @@
+cgdb-0.7.0 (03/21/2017)
+
+  * Remove help2man dependency. CGDB has a good info page which
+    should suffice.
+
+  * The hlsearch option has been added to CGDB. This improves the
+    searching and displaying of searching functionality within CGDB.
+    By default the option is off. When enabled, and there exists a
+    previous search, CGDB will display the search results using
+    the Search highlighting group. The IncSearch highlighting group
+    is used to display the active search. The hlsearch option
+    highlights previous searches in the source window, the gdb window
+    when in scroll mode and the file dialog window.
+
+  * CGDB now supports showing assembly code! By default, CGDB will
+    display source code when it is available and assembly code
+    when no source code is available. The option 'set disasm'
+    allows you to show mixed source/assembly when both are available.
+
+  * Add support to enable/disable showing assembly code in CGDB.
+    The default is disabled. The 'set disasm' enables showing 
+    mixed assembly mode by default. See the documentation for more
+    information.
+
+  * Add the :logo command to cgdb. This tells CGDB to display a logo
+    in the source window.
+
+  * Add an initial Rust syntax highlighter.
+
+  * Support vi type <digit>j and <digit>k motions. Previously only
+    typing j or k with out a number was supported.
+
+  * Add support for marks. m[a-z] will set a local file mark and
+    m[A-Z] will set a global mark. '[a-z] will jump to the
+    corresponding local mark and '[A-Z] will jump to the corresponding
+    global mark. As an added bonus '' will jump to the last jump location
+    and '. will jump to the last executing line.
+    The showmarks option was introduced to show the marks in the source
+    window. It defaults to true. You can disable the viewing of marks
+    using 'set noshowmarks'.
+
+  * Add support to enable or disable color in the source window.
+    The default is enabled. See the documentation for more information.
+
+  * Add support for showing colors in the debug window. If gdb or the
+    program being debugged output an ansi escape code representing color,
+        https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+    then CGDB will display the corresponding color instead of the escape
+    code. This option is configurable with the set debugwincolor option.
+
+  * Add the winminwidth option to CGDB. It controls the minimum width
+    that a window can be resized. It corresponds to the winminheight
+    option. This was introduced now that CGDB can have vertically split
+    windows.
+
+  * Add support for vertical or horizontal splitting of the CGDB/GDB
+    windows. Thanks to Daniel Cohen for the original implementation
+    of this idea! You can change the window orientation by using the
+    command 'set winsplitorientation=horizontal or vertical'.
+    horizontal is the default orientation. Type Ctrl-w to switch between
+    vertical and horizontal viewing.
+
+  * Remove the TTY mode and TTY window from CGDB. This previously allowed
+    you to send input to the program being debugged through the TTY
+    window in CGDB. It is better for the user to run their program in
+    one terminal and attach to it with CGDB from another terminal in
+    order to get terminal input and terminal output working correctly.
+
+  * Add the -w command line option to CGDB. It directs CGDB to wait
+    to start until either a debugger is attached to it, or until a key
+    is written to it's stdin. This helps simplify debugging CGDB itself.
+
+  * Added GDB scroll mode in addition to the existing GDB command mode.
+    To enter scroll mode, type 'page up' when in GDB mode and to exit
+    type 'q', 'i' or 'Enter'. In scroll mode, you can scroll through
+    the GDB output. You can also search the GDB output with the /, ?, n
+    and N keys. Marks are also supported. You can set a mark by typing
+    m[a-z] and you can jump to a mark by typing '[a-z]. See the
+    documentation for more details.
+
+  * Extended support for the G command when in CGDB mode. The new supported
+    syntax is [<number>]G, allowing users to jump to a specific line within
+    the source file, rather than just the end of the source file. This is
+    identical to the :<number> command.
+
+  * Added support for 'executinglinedisplay' and 'selectedlinedisplay'
+    configuration options. See documentation for full explanation.
+    This allows you to configure how CGDB displays both the currently
+    executing line and the currently selected line.
+    The default for executing line is set to longarrow.
+    The default for selected line is set to block.
+
+    The 'arrowstyle' option has been deprecated (but still supported)
+    and users should use the 'executinglinedisplay' option instead.
+
+  * CGDB now only supports ncurses. Support for curses was removed.
+    The curses support was previously very out of date and untested.
+    If curses support is needed, please let us know.
+
 cgdb-0.6.8 (11/13/2014)
 
   * Fix issue #40, the map commands were adding additional new lines
@@ -167,7 +266,7 @@ cgdb-0.6.3 (06/03/2006)
    * CGDB will no longer crash if you attempt to do a regular expression
      search with / when there is no file in the source viewer.
    
-   * CGDB now uses a psuedo terminal (PTY) to start GDB on, instead of
+   * CGDB now uses a pseudo terminal (PTY) to start GDB on, instead of
      using a pipe. Jens Frederich reported that on a Mac, typing Ctrl-C
      while the inferior was running would cause GDB to shut down, thus
      causing CGDB to shut down. This patch fixes that problem. At the
