@@ -4,7 +4,7 @@
 #
 Name     : cgdb
 Version  : 0.7.0
-Release  : 8
+Release  : 9
 URL      : http://cgdb.me/files/cgdb-0.7.0.tar.gz
 Source0  : http://cgdb.me/files/cgdb-0.7.0.tar.gz
 Summary  : No detailed summary available
