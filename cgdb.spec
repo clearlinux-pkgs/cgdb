@@ -4,7 +4,7 @@
 #
 Name     : cgdb
 Version  : 0.7.1
-Release  : 14
+Release  : 15
 URL      : http://cgdb.me/files/cgdb-0.7.1.tar.gz
 Source0  : http://cgdb.me/files/cgdb-0.7.1.tar.gz
 Summary  : Curses-based interface to the GNU Debugger
