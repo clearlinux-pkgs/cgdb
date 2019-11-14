@@ -4,14 +4,15 @@
 #
 Name     : cgdb
 Version  : 0.7.1
-Release  : 15
+Release  : 16
 URL      : http://cgdb.me/files/cgdb-0.7.1.tar.gz
 Source0  : http://cgdb.me/files/cgdb-0.7.1.tar.gz
-Summary  : Curses-based interface to the GNU Debugger
+Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
 Requires: cgdb-bin = %{version}-%{release}
 Requires: cgdb-data = %{version}-%{release}
+Requires: cgdb-info = %{version}-%{release}
 Requires: cgdb-license = %{version}-%{release}
 BuildRequires : bison
 BuildRequires : expect
@@ -43,12 +44,12 @@ Group: Data
 data components for the cgdb package.
 
 
-%package doc
-Summary: doc components for the cgdb package.
-Group: Documentation
+%package info
+Summary: info components for the cgdb package.
+Group: Default
 
-%description doc
-doc components for the cgdb package.
+%description info
+info components for the cgdb package.
 
 
 %package license
@@ -61,14 +62,14 @@ license components for the cgdb package.
 
 %prep
 %setup -q -n cgdb-0.7.1
+cd %{_builddir}/cgdb-0.7.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1565194190
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1573775985
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -88,10 +89,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1565194190
+export SOURCE_DATE_EPOCH=1573775985
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/cgdb
-cp COPYING %{buildroot}/usr/share/package-licenses/cgdb/COPYING
+cp %{_builddir}/cgdb-0.7.1/COPYING %{buildroot}/usr/share/package-licenses/cgdb/dfac199a7539a404407098a2541b9482279f690d
 %make_install
 
 %files
@@ -105,10 +106,10 @@ cp COPYING %{buildroot}/usr/share/package-licenses/cgdb/COPYING
 %defattr(-,root,root,-)
 /usr/share/cgdb/cgdb.txt
 
-%files doc
+%files info
 %defattr(0644,root,root,0755)
-%doc /usr/share/info/*
+/usr/share/info/cgdb.info
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/cgdb/COPYING
+/usr/share/package-licenses/cgdb/dfac199a7539a404407098a2541b9482279f690d
