@@ -1,3 +1,106 @@
+cgdb-0.8.0 (01/16/2022)
+
+  * Fix issue #298 - CGDB now exits when gdb exits
+    Previously if gdb exited but the inferior, or child of the inferior
+    was still running, cgdb would possibly continue running in a
+    non responsive state. Now cgdb exits when gdb does.
+
+  * Fix issue #278, Single stepping through disassembly without debug
+    symbols does not move arrow in source window. Now the arrow moves in
+    the source window as expected.
+
+  * Fix issue #135 CGDB freezes when pressing "o" to open the file dialog
+    Previously, if you attempted to open the file dialog, cgdb would 
+    sometimes hang, due to a gdbwire parsing bug from the gdb response.
+    This has been resolved.
+
+  * Fix issue #152, breakpoint handling is broken in disasembly view
+    Previously, if you set a breakpoint in the source view, it would not
+    be reflected in the disassembly view, and vice versa. Now if you set
+    a breakpoint in either view, it should be reflected in the other.
+
+  * Fix issue #260, CGDB would not process commands after F5, F6, etc
+    If F5, F6, F7, F8, F10 were hit, CGDB would no longer process GDB
+    commands, like setting breakpoints, etc. Now CGDB works as expected.
+
+  * CGDB implements a virtual terminal in the GDB window
+    - The GDB scroller is now a virtual terminal (using libvterm)
+    - The scrollback buffer has been reimplemented using libvterm
+      The cursor row/col position is now known, rather than just the row
+    - Searching in the scrollback buffer is improved
+    - The scrollback buffer size is configurable with a new option,
+      scrollbackbuffersize (sbbs) and is defaulted to 10000.
+    - Mark commands in the GDB scroller have been removed
+    - Unicode is now fully supported in the gdb window
+    - libvterm does not support reflow yet, so resizing the terminal or
+      switching the window orientation (winsplitorientation) after startup
+      may cause the text in the GDB window to not be as expected
+    - Colors in the GDB window are not fully supported yet.
+      Ncurses is difficult to work with, considering switching.
+      RGB vterm colors are unsupported at the moment.
+
+    Fix the following github issues
+    - When I use set wso=vertical, I use the GDB window to print the
+      variable value, which will overflow the rightboundary #274
+    - Long lines from GDB output are not wrapped #265 
+    - Some characters in the editor are incorrect #261 
+    - Setting prompt to unicode character doesn't work as expected #257 
+    - cgdb prints '[?2004h' in xfce4 terminal #256 
+    - [regression] prefixing "04h" characters in the gdb prompt since
+      fixing #255 
+    - GDB console does not display color #251 
+    - gdb ANSI escape codes only in cgdb #189 
+    - Cursor offset gets lost when typing UTF-8 characters in the
+      gdb window #121 
+
+  * CGDB implements GDB/MI in favor of GDB/Annotations
+    - CGDB now communicates with GDB using MI only (instead of Annotations)
+      using the new-ui GDB command
+    - CGDB now requires GDB 7.12 or newer
+    - CGDB now fully supports the GDB console, including readline and
+      communicating with the inferior (the program being debugged)
+    - CGDB no longer uses the inferior tty option to talk to the inferior
+    
+    Fix the following github issues
+    - Messed up input with latest gdb #247 
+    - press T, it cannot open I/O window #244  (no longer necessary)
+    - Support disabling the inferior pty #241 
+    - Any plan to add tty window back? #209 
+    - Debugging a forking program fails on first run #204 
+    - Ctrl - T doesn't seem to work (cgdb 0.7.0) #193 
+    - inputrc enable-keypad messing with readline #190 
+    - GDB command-line options not working #160 
+    - Logging output uses machine interface? #158 
+    - Pagination of long output is not properly handled #145 
+    - cgdb stucks on fgets #130 
+    - Autocompletion on directories failes to append '/' #96 
+    - GDB Prompt Hangs after Pressing Tab in a "Command List" #67 
+
+  * Add the nexti and stepi configuration commands
+
+  * Fix issue #239, ANSI escape issues with GDB-9
+    Color sequences like, [?1l,[?1h,=,>" are now ignored by CGDB rather
+    than producing garbage looking text in the gdb terminal.
+
+  * Fix auto source reload issue, issue #235 and #221
+    Occasionally, CGDB would not properly reload source files when they
+    had changed. Now CGDB will reload them on change.
+
+  * CGDB works again with newer versions of GDB (gdb 8.3 and above)
+    CGDB annotation support was broken by the following GDB issue,
+      https://sourceware.org/bugzilla/show_bug.cgi?id=25190
+    Changing CGDB from 'set height 0' to 'set pagination off' works
+    around the issue, even though I thought they were identical commands.
+
+  * CGDB now supports a configurable home directory. If the environment
+    variable 'CGDB_DIR' is set to a directory name, CGDB will use the
+    specified directory instead of '~/.cgdb/'.
+
+  * Fix issue #219 - CGDB users on Gentoo were experiencing segfaults at startup
+    due to mismatched wide-character support between the ncurses and tinfo
+    libraries. The build system has been updated to correctly pair the versions
+    of these libraries.
+
 cgdb-0.7.1 (08/04/2019)
 
   * Status bar messages are now displayed properly in veritical mode.

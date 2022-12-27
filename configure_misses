@@ -1,9 +1,10 @@
-Configure miss: sys/stropts.h usability
-Configure miss: sys/stropts.h presence
-Configure miss: sys/stropts.h
-Configure miss: readline.h usability
-Configure miss: readline.h presence
-Configure miss: readline.h
-Configure miss: history.h usability
-Configure miss: history.h presence
 Configure miss: history.h
+Configure miss: history.h presence
+Configure miss: history.h usability
+Configure miss: readline.h
+Configure miss: readline.h presence
+Configure miss: readline.h usability
+Configure miss: sys/stropts.h
+Configure miss: sys/stropts.h presence
+Configure miss: sys/stropts.h usability
+Configure miss: tgetent
